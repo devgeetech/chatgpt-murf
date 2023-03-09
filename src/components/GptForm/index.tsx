@@ -3,6 +3,11 @@ import { generateChatGPTResponse, ChatGPTMessage } from "../../api/OpenAiAPI";
 import { generateSpeechWithKey, GenerateSpeechInput } from "../../api/MurfAPI";
 import GPTQueryItem from "../GPTQueryItem";
 
+enum STATUS_TYPES {
+  IDLE,
+  LOADING,
+}
+
 type GPTQuery = {
   question: string;
   gptResponse: string;
@@ -11,6 +16,7 @@ type GPTQuery = {
 
 function GPTForm() {
   const [prompt, setPrompt] = useState("");
+  const [status, setStatus] = useState(STATUS_TYPES.IDLE);
   const [gptQueries, setGptQueries] = useState([] as GPTQuery[]);
   const [currentAudioId, setCurrentAudioId] = useState(
     undefined as number | undefined
@@ -23,7 +29,9 @@ function GPTForm() {
   }
 
   async function handlePromptSubmit() {
-    if (!prompt) return;
+    if (!prompt || prompt.trim() === "") return;
+
+    setStatus(STATUS_TYPES.LOADING);
 
     const messagesList = [] as ChatGPTMessage[];
     gptQueries.forEach((query) => {
@@ -61,6 +69,10 @@ function GPTForm() {
         gptResponseAudioUrl: murfAudio.data.audioFile,
       },
     ]);
+
+    setPrompt("");
+
+    setStatus(STATUS_TYPES.IDLE);
   }
 
   function handleAudioPlay(audioIdToPlay: number) {
@@ -95,8 +107,17 @@ function GPTForm() {
       ) : (
         <div>Start by asking a question</div>
       )}
-      <input onChange={handlePromptChange} value={prompt} />
-      <button onClick={handlePromptSubmit}>Submit</button>
+      <input
+        onChange={handlePromptChange}
+        value={prompt}
+        disabled={status === STATUS_TYPES.LOADING}
+      />
+      <button
+        onClick={handlePromptSubmit}
+        disabled={status === STATUS_TYPES.LOADING}
+      >
+        Submit
+      </button>
       <audio
         autoPlay
         ref={audioElementRef}
