@@ -24,7 +24,7 @@ export async function generateGPTResponse({ prompt }: GenerateGPTResponseBody) {
     model: "text-davinci-003",
     prompt: prompt,
     temperature: 1,
-    max_tokens: 2000,
+    max_tokens: 1000,
   });
 
   return completion;
@@ -37,7 +37,7 @@ export async function generateChatGPTResponse({
     model: "gpt-3.5-turbo",
     messages: messages,
     temperature: 1,
-    max_tokens: 2000,
+    max_tokens: 1000,
   });
 
   return completion;

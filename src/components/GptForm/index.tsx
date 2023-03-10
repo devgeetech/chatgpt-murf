@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { generateChatGPTResponse, ChatGPTMessage } from "../../api/OpenAiAPI";
 import { generateSpeechWithKey, GenerateSpeechInput } from "../../api/MurfAPI";
 import GPTQueryItem from "../GPTQueryItem";
+import Spinner from "../Spinner";
 
 enum STATUS_TYPES {
   IDLE,
@@ -92,32 +93,46 @@ function GPTForm() {
   return (
     <div className="gpt-form">
       <div className="gpt-form__heading">ChatGPT + Murf</div>
-      {gptQueries.length > 0 ? (
-        gptQueries?.map((gptQuery, index) => {
-          return (
-            <GPTQueryItem
-              key={`${gptQuery.question} + ${index}`}
-              question={gptQuery.question}
-              gptResponseId={index}
-              handleAudioPlay={handleAudioPlay}
-              currentPlayingAudioId={currentAudioId ?? undefined}
-            />
-          );
-        })
-      ) : (
-        <div>Start by asking a question</div>
-      )}
-      <input
-        onChange={handlePromptChange}
-        value={prompt}
-        disabled={status === STATUS_TYPES.LOADING}
-      />
-      <button
-        onClick={handlePromptSubmit}
-        disabled={status === STATUS_TYPES.LOADING}
-      >
-        Submit
-      </button>
+      <div className="gpt-form__queries">
+        {gptQueries.length > 0 ? (
+          gptQueries?.map((gptQuery, index) => {
+            return (
+              <GPTQueryItem
+                key={`${gptQuery.question} + ${index}`}
+                question={gptQuery.question}
+                gptResponseId={index}
+                handleAudioPlay={handleAudioPlay}
+                currentPlayingAudioId={currentAudioId ?? undefined}
+              />
+            );
+          })
+        ) : (
+          <div className="gpt-form__queries__placeholder">
+            Start by asking a question
+          </div>
+        )}
+      </div>
+      <div className="gpt-form__user-input">
+        <input
+          onChange={handlePromptChange}
+          value={prompt}
+          disabled={status === STATUS_TYPES.LOADING}
+          className="gpt-form__user-input__actual"
+        />
+        <button
+          onClick={handlePromptSubmit}
+          disabled={status === STATUS_TYPES.LOADING}
+          className="gpt-form__user-input__button"
+        >
+          {status === STATUS_TYPES.LOADING ? (
+            <Spinner />
+          ) : (
+            <span className="material-symbols-outlined gpt-form__user-input__button__icon">
+              send
+            </span>
+          )}
+        </button>
+      </div>
       <audio
         autoPlay
         ref={audioElementRef}

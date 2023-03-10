@@ -7,13 +7,13 @@ export type GenerateSpeechInput = {
 };
 
 export const api = axios.create({
-  baseURL: "https://api.murf.ai",
+  baseURL: "https://api.dev.murf.ai",
 });
 
 export async function generateSpeechWithKey(data: GenerateSpeechInput) {
   return api.post("/v1/speech/generate-with-key", data, {
     headers: {
-      "api-key": import.meta.env.VITE_MURF_API_KEY,
+      "api-key": import.meta.env.VITE_MURF_API_KEY_DEV,
       "Content-Type": "application/json",
     },
   });

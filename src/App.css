@@ -1,6 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,800;0,900;1,400;1,500;1,900&display=swap");
+/* :root {
+  --color-1: #4d455d;
+  --color-2: #e96479;
+  --color-3: #f5e9cf;
+  --color-4: #7db9b6;
+} */
+
+:root {
+  --color-1: #222831;
+  --color-2: #393e46;
+  --color-3: #00adb5;
+  --color-4: #eeeeee;
+}
+
 .App {
   display: flex;
   justify-content: center;
+  font-family: "Raleway";
 }
 
 .content {
@@ -17,5 +33,105 @@
 }
 
 .gpt-form__heading {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
   margin-bottom: 2rem;
+
+  font-size: 48px;
+  font-weight: 900;
+}
+
+.gpt-form__queries {
+  display: flex;
+  flex-direction: column;
+}
+
+.gpt-form__queries__placeholder {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.gpt-form__user-input {
+  display: flex;
+  align-items: center;
+}
+
+.gpt-form__user-input__actual {
+  width: 100%;
+  margin-right: 0.5rem;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border-width: 1px;
+}
+
+.gpt-form__user-input__button {
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+  background-color: var(--color-3);
+  cursor: pointer;
+}
+
+.gpt-form__user-input__button__icon {
+  color: white;
+}
+
+.gpt-query-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 2px solid var(--color-1);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.gpt-query-item__user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.gpt-query-item__user__icon {
+  margin-right: 0.5rem;
+  font-size: 32px;
+  color: var(--color-2);
+}
+
+.gpt-query-item__user__question {
+  font-weight: 500;
+}
+
+.gpt-query-item__gpt {
+  display: flex;
+  align-items: center;
+}
+
+.gpt-query-item__gpt__icon {
+  margin-right: 0.5rem;
+  font-size: 32px;
+  color: var(--color-2);
+}
+
+.gpt-query-item__gpt__audio-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background-color: var(--color-3);
+  border: none;
+  cursor: pointer;
+}
+
+.gpt-query-item__gpt__audio-button__icon {
+  color: white;
+}
+
+.gpt-query-item__gpt__audio-button__text {
+  color: white;
+  font-weight: 500;
 }
