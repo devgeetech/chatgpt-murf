@@ -23,7 +23,6 @@ export async function generateGPTResponse({ prompt }: GenerateGPTResponseBody) {
   const completion = await openai.createCompletion({
     model: "text-davinci-003",
     prompt: prompt,
-    temperature: 1,
     max_tokens: 1000,
   });
 
