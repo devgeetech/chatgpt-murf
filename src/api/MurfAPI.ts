@@ -4,7 +4,7 @@ export type GenerateSpeechInput = {
   voiceId: string;
   text: string;
   format: string;
-  // encodeAsBase64: boolean;
+  encodeAsBase64: boolean;
 };
 
 export const api = axios.create({

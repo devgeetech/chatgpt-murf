@@ -58,7 +58,7 @@ function GPTForm() {
       voiceId: "en-US-marcus",
       format: "MP3",
       text: gptRes.data.choices[0].message?.content as string,
-      // encodeAsBase64: true,
+      encodeAsBase64: true,
     };
 
     const murfAudio = await generateSpeechWithKey(murfPayload);
@@ -68,8 +68,8 @@ function GPTForm() {
       {
         question: prompt,
         gptResponse: gptRes.data.choices[0].message?.content as string,
-        gptResponseAudioUrl: murfAudio.data.audioFile,
-        // gptResponseAudioUrl: murfAudio.data.encodedAudio,
+        // gptResponseAudioUrl: murfAudio.data.audioFile,
+        gptResponseAudioUrl: murfAudio.data.encodedAudio,
       },
     ]);
 
@@ -141,8 +141,8 @@ function GPTForm() {
         onEnded={handleOnAudioPlayEnd}
         src={
           currentAudioId !== undefined
-            ? // `data:audio/mp3;base64,${gptQueries[currentAudioId].gptResponseAudioUrl}`
-              gptQueries[currentAudioId].gptResponseAudioUrl
+            ? // gptQueries[currentAudioId].gptResponseAudioUrl
+              `data:audio/mp3;base64,${gptQueries[currentAudioId].gptResponseAudioUrl}`
             : undefined
         }
       />
