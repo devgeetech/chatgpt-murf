@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
 type GenerateGPTResponseBody = {
   prompt: string;
@@ -13,16 +13,28 @@ type GenerateChatGPTResponseBody = {
   messages: ChatGPTMessage[];
 };
 
-const configuration = new Configuration({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY as string,
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_MURF_OPENAI_API_KEY as string,
+  dangerouslyAllowBrowser: true,
 });
 
-const openai = new OpenAIApi(configuration);
+// export async function generateGPTResponse({ prompt }: GenerateGPTResponseBody) {
+//   const completion = await openai.chat.completions.create({
+//     model: "text-davinci-003",
+//     prompt: prompt,
+//     temperature: 1,
+//     max_tokens: 1000,
+//   });
 
-export async function generateGPTResponse({ prompt }: GenerateGPTResponseBody) {
-  const completion = await openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: prompt,
+//   return completion;
+// }
+
+export async function generateChatGPTResponse({
+  messages,
+}: GenerateChatGPTResponseBody) {
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: messages,
     temperature: 1,
     max_tokens: 1000,
   });
@@ -30,15 +42,17 @@ export async function generateGPTResponse({ prompt }: GenerateGPTResponseBody) {
   return completion;
 }
 
-export async function generateChatGPTResponse({
-  messages,
-}: GenerateChatGPTResponseBody) {
-  const completion = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    messages: messages,
-    temperature: 1,
-    max_tokens: 1000,
+export async function generateTranscription({
+  audioFile,
+  language,
+}: {
+  audioFile: File;
+  language: string;
+}) {
+  const transcription = await openai.audio.transcriptions.create({
+    file: audioFile,
+    language: language,
+    model: "whisper-1",
   });
-
-  return completion;
+  return transcription;
 }
